@@ -1,6 +1,0 @@
-services:
-  - type: web
-    name: task-manager
-    env: python
-    buildCommand: cd backend && poetry install
-    startCommand: cd backend && poetry run python manage.py runserver 0.0.0.0:8000
