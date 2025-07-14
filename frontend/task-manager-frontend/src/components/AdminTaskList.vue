@@ -29,7 +29,20 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 
-const tasks = ref([]);
+// ✅ Define the task interface
+interface Task {
+  id: number;
+  title: string;
+  deadline: string;
+  status: string;
+  user: {
+    name: string;
+    email: string;
+  };
+}
+
+// ✅ Assign the correct type to the ref
+const tasks = ref<Task[]>([]);
 
 const fetchTasks = async () => {
   try {
@@ -76,7 +89,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 1rem;
-  min-width: 600px; /* Ensures the table doesn't shrink too much */
+  min-width: 600px;
 }
 
 th,
