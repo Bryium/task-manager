@@ -1,15 +1,13 @@
-import Toastify from "toastify-js";
-import "toastify-js/src/toastify.css";
+import Toastify from 'toastify-js'
+import 'toastify-js/src/toastify.css'
 
-export const showToast = (
-  message: string,
-  type: "success" | "error" = "success"
-) => {
+export const showToast = (message: string, type: 'success' | 'error' = 'success') => {
   Toastify({
     text: message,
     duration: 3000,
-    gravity: "top",
-    position: "right",
-    backgroundColor: type === "success" ? "#4CAF50" : "#f44336",
-  }).showToast();
-};
+    gravity: 'top',
+    position: 'right',
+    backgroundColor: type === 'success' ? '#4CAF50' : '#f44336',
+    stopOnFocus: true
+  }).showToast()
+}

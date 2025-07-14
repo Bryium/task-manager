@@ -1,7 +1,8 @@
 from flask import Blueprint, request, jsonify
 from ..models.task import Task
 from ..models.user import User
-from .. import db
+from app.extensions import db
+
 from ..utils.email import send_task_notification
 from datetime import datetime
 
@@ -39,7 +40,7 @@ def get_user_tasks(user_id):
         } for t in tasks
     ])
 
-@bp.route("/<int:task_id>", methods=["PATCH"])
+@bp.route("/<int:task_id>", methods=["PATCH", "PUT"])
 def update_status(task_id):
     data = request.get_json()
     status = data.get("status")
@@ -48,6 +49,42 @@ def update_status(task_id):
     if not task:
         return jsonify({"error": "Task not found"}), 404
 
+    if status not in ["Pending", "In Progress", "Completed"]:
+        return jsonify({"error": "Invalid status"}), 400
+
     task.status = status
     db.session.commit()
     return jsonify({"message": "Task status updated"})
+
+
+@bp.route("/", methods=["GET"])
+def get_all_tasks():
+    tasks = Task.query.join(User).add_columns(
+        Task.id,
+        Task.title,
+        Task.description,
+        Task.status,
+        Task.deadline,
+        User.name,
+        User.email
+    ).all()
+
+    result = []
+    for task, id_, title, description, status, deadline, name, email in tasks:
+        result.append({
+            "id": id_,
+            "title": title,
+            "description": description,
+            "status": status,
+            "deadline": deadline.strftime("%Y-%m-%d") if deadline else None,
+            "user": {
+                "name": name,
+                "email": email
+            }
+        })
+
+    return jsonify(result)
+
+
+
+

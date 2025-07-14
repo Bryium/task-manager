@@ -1,22 +1,15 @@
 <template>
-  <div>
-    <h1 style="text-align: center;">Task Manager Dashboard</h1>
-    <TaskFormComponent />
-    <TaskListComponent />
-    <UserManagementComponent />
+  <div id="app">
+    <router-view />
   </div>
 </template>
 
-<script>
-import TaskFormComponent from './components/TaskFormComponent.vue';
-import TaskListComponent from './components/TaskListComponent.vue';
-import UserManagementComponent from './components/UserManagementComponent.vue';
+<script lang="ts" setup></script>
 
-export default {
-  components: {
-    TaskFormComponent,
-    TaskListComponent,
-    UserManagementComponent,
-  },
-};
-</script>
+<style scoped>
+#app {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f7f8fa;
+  min-height: 100vh;
+}
+</style>

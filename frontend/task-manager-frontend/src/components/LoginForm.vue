@@ -1,52 +1,34 @@
 <template>
   <div class="login-container">
-    <h2>Login</h2>
-    <p>Enter your correct details to access iMarketAfrica</p>
-    <form class="login-form" @submit.prevent="login">
-      <div class="input-group">
-        <span class="icon">📧</span>
-        <input v-model="email" type="email" placeholder="Enter email address" required />
-      </div>
-      <div class="input-group">
-        <span class="icon">🔒</span>
-        <input v-model="password" type="password" placeholder="Enter password" required />
-      </div>
-      <div class="forgot-password">
-        <router-link to="/reset-password">Forgot Password?</router-link>
-      </div>
-      <button type="submit" class="login-btn">Login</button>
-    </form>
+    <h2>Welcome to Task Manager</h2>
+    <p>Please continue as your appropriate role</p>
+
+    <div class="role-buttons">
+      <button @click="handleAdmin" class="role-btn admin">
+        Continue as Admin
+      </button>
+      <button @click="handleUser" class="role-btn user">
+        Continue as User
+      </button>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { showToast } from '../utils/toast'
+import { useRouter } from "vue-router";
+import { showToast } from "../utils/toast";
 
-const email = ref('')
-const password = ref('')
+const router = useRouter();
 
-const login = async () => {
-  try {
-    const res = await fetch('http://127.0.0.1:5000/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email.value, password: password.value }),
-    })
+const handleAdmin = () => {
+  showToast("Welcome Admin");
+  router.push("/admin");
+};
 
-    const data = await res.json()
-
-    if (!res.ok || !data.success) {
-      throw new Error(data.message || 'Login failed')
-    }
-
-    showToast('Login successful')
-    // Optionally: store token or navigate
-    // router.push('/dashboard') if using Vue Router
-  } catch (err: any) {
-    showToast(err.message, 'error')
-  }
-}
+const handleUser = () => {
+  showToast("Welcome User");
+  router.push("/user");
+};
 </script>
 
 <style scoped>
@@ -70,67 +52,57 @@ const login = async () => {
 .login-container p {
   color: #6b7280;
   font-size: 0.95rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
-.login-form {
+.role-buttons {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1rem;
 }
 
-.input-group {
-  display: flex;
-  align-items: center;
-  background-color: #f9fafb;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  padding: 0.6rem 0.75rem;
-}
-
-.input-group .icon {
-  margin-right: 0.6rem;
-  color: #6b7280;
-  font-size: 1.1rem;
-}
-
-.input-group input {
-  border: none;
-  outline: none;
-  width: 100%;
-  background: transparent;
-  font-size: 1rem;
-  color: #111827;
-}
-
-.login-btn {
+.role-btn {
   padding: 0.8rem;
-  background-color: #3b82f6;
-  color: white;
-  border: none;
-  border-radius: 8px;
   font-size: 1rem;
   font-weight: bold;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
   transition: background 0.3s ease;
 }
 
-.login-btn:hover {
+.role-btn.admin {
+  background-color: #10b981;
+  color: white;
+}
+
+.role-btn.admin:hover {
+  background-color: #059669;
+}
+
+.role-btn.user {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.role-btn.user:hover {
   background-color: #2563eb;
 }
 
-.forgot-password {
-  margin-top: -0.5rem;
-  text-align: right;
-  font-size: 0.9rem;
-}
+/* Responsive Styling */
+@media screen and (max-width: 480px) {
+  .login-container {
+    padding: 1.5rem;
+    margin: 2rem 1rem;
+  }
 
-.forgot-password a {
-  text-decoration: none;
-  color: #3b82f6;
-}
+  .login-container h2 {
+    font-size: 1.5rem;
+  }
 
-.forgot-password a:hover {
-  text-decoration: underline;
+  .role-btn {
+    font-size: 0.95rem;
+    padding: 0.7rem;
+  }
 }
 </style>
