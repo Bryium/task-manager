@@ -42,7 +42,7 @@ interface Task {
 }
 
 // ✅ Assign the correct type to the ref
-const tasks = ref<Task[]>([]);
+const tasks = ref([] as Task[]);
 
 const fetchTasks = async () => {
   try {

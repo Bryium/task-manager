@@ -53,6 +53,7 @@ const email = ref("");
 const editingIndex = ref<number | null>(null);
 const editName = ref("");
 const editEmail = ref("");
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let currentEditId = "";
 
 // Toast utility
