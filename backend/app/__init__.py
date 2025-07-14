@@ -1,11 +1,8 @@
+# app/__init__.py
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-from flask_mail import Mail
 from .config import Config
-
-db = SQLAlchemy()
-mail = Mail()
+from .extensions import db, migrate, mail  
 
 def create_app():
     app = Flask(__name__)
@@ -14,13 +11,14 @@ def create_app():
     CORS(app)
 
     db.init_app(app)
+    migrate.init_app(app, db)
     mail.init_app(app)
 
-    from .routes import auth, tasks
-    app.register_blueprint(auth.bp)
-    app.register_blueprint(tasks.bp)
+    # Import blueprints after extensions are initialized
+    from .routes.auth import bp as auth_bp
+    from .routes.tasks import bp as tasks_bp
 
-    with app.app_context():
-        db.create_all()
+    app.register_blueprint(auth_bp)
+    app.register_blueprint(tasks_bp)
 
-    return app
+    return app  
