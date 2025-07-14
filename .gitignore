@@ -1,2 +1,6 @@
 #Virtual environment
 backend/venv/
+
+
+#.env filesbackend/.env
+backend/.env
