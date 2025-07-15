@@ -39,7 +39,7 @@ const tasks = ref<any[]>([]);
 const fetchTasks = async () => {
   try {
     const res = await fetch(
-      `http://127.0.0.1:5000/api/tasks/user/${props.userId}`
+      `https://task-manager-v4al.onrender.com/api/tasks/user/${props.userId}`
     );
     const data = await res.json();
     tasks.value = data;
@@ -53,11 +53,14 @@ watch(() => props.userId, fetchTasks); // refetch if userId changes
 
 const updateTaskStatus = async (task: any) => {
   try {
-    const res = await fetch(`http://127.0.0.1:5000/api/tasks/${task.id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status: task.status }),
-    });
+    const res = await fetch(
+      `https://task-manager-v4al.onrender.com/api/tasks/${task.id}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: task.status }),
+      }
+    );
 
     if (!res.ok) {
       throw new Error("Failed to update task");

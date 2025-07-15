@@ -44,7 +44,7 @@ import axios from "axios";
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
 
-const API_URL = "http://localhost:5000/api/users";
+const API_URL = "https://task-manager-v4al.onrender.com/api/users";
 const users = ref<{ name: string; id: string; email: string }[]>([]);
 const name = ref("");
 const userId = ref("");

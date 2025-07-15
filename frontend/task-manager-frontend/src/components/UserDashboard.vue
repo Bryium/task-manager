@@ -49,14 +49,17 @@ async function loginUser() {
   }
 
   try {
-    const res = await fetch("http://127.0.0.1:5000/api/users/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: email.value,
-        user_id: userId.value,
-      }),
-    });
+    const res = await fetch(
+      "https://task-manager-v4al.onrender.com/api/users/login",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email.value,
+          user_id: userId.value,
+        }),
+      }
+    );
 
     const data = await res.json();
 
